@@ -15,7 +15,7 @@ build:
     -lSDL2
 
 clean:
-	rm ./game;
+	del game.exe
 
 run:
-	./game;
+	game.exe

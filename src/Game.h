@@ -1,9 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <C:\libsdl\SDL2/SDL.h>
-#include <C:\libsdl\SDL2/SDL_image.h>
-#include <C:\libsdl\SDL2/SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 class Game {
     private:
@@ -20,6 +20,6 @@ class Game {
         void Render();
         void Destroy();
 
-}
+};
 
-# endif
+#endif
