@@ -1,5 +1,5 @@
 build:
-	g++ -w -std=c++14 -Wfatal-errors \
+	g++ -w -std=c++14 \
 	./src/*.cpp \
 	-o game.exe \
 	-IC:\SDL\SDL2\include \
