@@ -25,8 +25,8 @@ class TransformComponent: public Component {
         }
 
         void Update(float deltaTime) override {
-            //TODO:
-            //Update the position / velocity as a function of deltatime.
+            position.x += velocity.x * deltaTime;
+            position.y += velocity.y * deltaTime;
         }
 
         void Render() override {
