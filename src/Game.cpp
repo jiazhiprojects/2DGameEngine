@@ -53,11 +53,18 @@ void Game::Initialize(int width, int height) {
 }
 
 void Game::LoadLevel(int levelNumber) {
-    std::string textureFilePath = "./assets/images/tank-big-right.png";
-    assetManager->AddTexture("tank-image", textureFilePath.c_str());
-    Entity& newEntity(manager.AddEntity("tank"));
-    newEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
-    newEntity.AddComponent<SpriteComponent>("tank-image");
+    std::string textureFilePath1 = "./assets/images/tank-big-right.png";
+    assetManager->AddTexture("tank-image", textureFilePath1.c_str());
+    std::string textureFilePath2 = "./assets/images/chopper-spritesheet.png";
+    assetManager->AddTexture("chopper-image", textureFilePath2.c_str());
+
+    Entity& tankEntity = manager.AddEntity("tank");
+    tankEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
+    tankEntity.AddComponent<SpriteComponent>("tank-image");
+
+    Entity& chopperEntity = manager.AddEntity("chopper");
+    chopperEntity.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
+    chopperEntity.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
 }
 
 void Game::ProcessInput() {

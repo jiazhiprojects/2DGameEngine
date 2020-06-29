@@ -37,6 +37,16 @@ class Entity {
         T* GetComponent() {
             return static_cast<T*>(typeToComponentMap[&typeid(T)]);
         }
+
+        template <typename T>
+        bool HasComponent() const {
+            std::map<const std::type_info*, Component*>::iterator result;
+            result = typeToComponentMap.find(&typeid(T));
+            if (result != typeToComponentMap.end()) {
+                return true;
+            }
+            return false;
+        }
 };
 
 #endif
