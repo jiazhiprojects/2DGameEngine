@@ -4,9 +4,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+//#include "./AssetManager.h"
 #include "./EntityManager.h"
 #include "./Component.h"
 #include "./Entity.h"
+
+class AssetManager;
 
 class Game {
     private:
@@ -17,6 +20,7 @@ class Game {
         Game();
         ~Game();
         static SDL_Renderer* renderer;
+        static AssetManager* assetManager;
         void LoadLevel(int levelNumber);
         int ticksLastFrame;
         bool IsRunning() const;
