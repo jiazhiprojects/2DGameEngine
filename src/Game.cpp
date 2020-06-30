@@ -2,6 +2,7 @@
 #include "./Constants.h"
 #include "./Game.h"
 #include "AssetManager.h"
+#include "./Map.h"
 #include "./Components/TransformComponent.h"
 #include "./Components/SpriteComponent.h"
 #include "../lib/glm/glm.hpp"
@@ -12,6 +13,7 @@ EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
+Map* map;
 
 Game::Game() {
     this->isRunning = false;
@@ -59,6 +61,11 @@ void Game::LoadLevel(int levelNumber) {
     assetManager->AddTexture("tank-image", textureFilePath1.c_str());
     std::string textureFilePath2 = "./assets/images/chopper-spritesheet.png";
     assetManager->AddTexture("chopper-image", textureFilePath2.c_str());
+    assetManager->AddTexture("jungle", std::string("./assets/tilemaps/jungle.png").c_str());
+
+
+    map = new Map("jungle", 1, 32);
+    map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
 
     Entity& tankEntity = manager.AddEntity("tank");
     tankEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
