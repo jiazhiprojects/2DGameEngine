@@ -1,9 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include <C:/libsdl/SDL2/include/SDL2/SDL.h>
+#include <C:/libsdl/SDL2/include/SDL2/SDL_image.h>
+#include <C:/libsdl/SDL2/include/SDL2/SDL_ttf.h>
 //#include "./AssetManager.h"
 #include "./EntityManager.h"
 #include "./Component.h"

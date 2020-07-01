@@ -1,15 +1,14 @@
 #ifndef ASSETMANAGER_H
 #define ASSETMANAGER_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include <C:/libsdl/SDL2/include/SDL2/SDL.h>
+#include <C:/libsdl/SDL2/include/SDL2/SDL_image.h>
+#include <C:/libsdl/SDL2/include/SDL2/SDL_ttf.h>
 #include <map>
 #include <string>
 #include "./EntityManager.h"
 #include "./TextureManager.h"
 
-//#include "./Game.h"
 class AssetManager {
     private:
         EntityManager* manager;

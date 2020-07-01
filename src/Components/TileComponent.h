@@ -1,7 +1,7 @@
 #ifndef TILECOMPONENT_H
 #define TILECOMPONENT_H
 
-#include <SDL2/SDL.h>
+#include <C:/libsdl/SDL2/include/SDL2/SDL.h>
 #include "../EntityManager.h"
 #include "../AssetManager.h"
 #include "../../lib/glm/glm.hpp"

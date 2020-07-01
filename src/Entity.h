@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "./Constants.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -16,8 +17,9 @@ class Entity {
         std::map<const std::type_info*, Component*> typeToComponentMap;
     public:
         std::string name;
+        LayerType layer;
         Entity(EntityManager& manager);
-        Entity(EntityManager& manager, std::string name);
+        Entity(EntityManager& manager, std::string name, LayerType layer);
         void Update(float deltaTime);
         void Render();
         void Destroy();
