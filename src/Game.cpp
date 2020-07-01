@@ -13,6 +13,7 @@ EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
+SDL_Rect Game::camera = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 Map* map;
 
 Game::Game() {
@@ -56,6 +57,8 @@ void Game::Initialize(int width, int height) {
     return;
 }
 
+Entity& player(manager.AddEntity("chopper", PLAYER_LAYER));
+
 void Game::LoadLevel(int levelNumber) {
     std::string textureFilePath1 = "./assets/images/tank-big-right.png";
     assetManager->AddTexture("tank-image", textureFilePath1.c_str());
@@ -71,10 +74,10 @@ void Game::LoadLevel(int levelNumber) {
     tankEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
 
-    Entity& chopperEntity = manager.AddEntity("chopper", PLAYER_LAYER);
-    chopperEntity.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
-    chopperEntity.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
-    chopperEntity.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");
+    //Entity& player = manager.AddEntity("chopper", PLAYER_LAYER);
+    player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
+    player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
+    player.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");
 }
 
 void Game::ProcessInput() {
@@ -114,6 +117,8 @@ void Game::Update() {
     ticksLastFrame = SDL_GetTicks();
 
     manager.Update(deltaTime);
+
+    HandleCameraMovement();
 }
 
 void Game::Render() {
@@ -127,6 +132,18 @@ void Game::Render() {
     manager.Render();
 
     SDL_RenderPresent(renderer);
+}
+
+void Game::HandleCameraMovement() {
+    TransformComponent* mainPlayerTransform = player.GetComponent<TransformComponent>();
+
+    camera.x = mainPlayerTransform->position.x - (WINDOW_WIDTH / 2);
+    camera.y = mainPlayerTransform->position.y - (WINDOW_HEIGHT / 2);
+
+    camera.x = camera.x < 0 ? 0 : camera.x;
+    camera.y = camera.y < 0 ? 0 : camera.y;
+    camera.x = camera.x > camera.w ? camera.w : camera.x;
+    camera.y = camera.y > camera.h ? camera.h : camera.y;
 }
 
 void Game::Destroy() {
