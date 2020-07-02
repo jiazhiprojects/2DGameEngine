@@ -74,13 +74,18 @@ void Game::LoadLevel(int levelNumber) {
     Entity& tankEntity = manager.AddEntity("tank", ENEMY_LAYER);
     tankEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
-    tankEntity.AddComponent<ColliderComponent>("enemy", 150, 495, 32, 32);
+    tankEntity.AddComponent<ColliderComponent>("ENEMY", 150, 495, 32, 32);
 
     //Entity& player = manager.AddEntity("chopper", PLAYER_LAYER);
     player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
     player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
     player.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");
-    player.AddComponent<ColliderComponent>("player", 240, 106, 32, 32);
+    player.AddComponent<ColliderComponent>("PLAYER", 240, 106, 32, 32);
+
+    Entity& heliport(manager.AddEntity("Heliport", OBSTACLE_LAYER));
+    heliport.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
+    heliport.AddComponent<SpriteComponent>("heliport-image");
+    heliport.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
 }
 
 void Game::ProcessInput() {
@@ -151,10 +156,30 @@ void Game::HandleCameraMovement() {
 }
 
 void Game::CheckCollisions() {
-    std::string collisionTagType = manager.CheckEntityCollisions(player);
-    if (collisionTagType.compare("enemy") == 0) {
-        isRunning = false;
+    CollisionType colType = manager.CheckCollisions();
+    // switch (colType) {
+    //     case PLAYER_ENEMY_COLLISION:
+    //         ProcessGameOver();
+    //         break;
+    //     case PLAYER_LEVELCOMPLETE_COLLISION:
+    //         ProcessNextLevel();
+    //         break;
+    //     default:
+    //         break;
+    // }
+    if (colType == PLAYER_ENEMY_COLLISION) {
+        ProcessGameOver();
     }
+}
+
+void Game::ProcessGameOver() {
+    std::cout << "Game Over" << std::endl;
+    isRunning = false;
+}
+
+void Game::ProcessNextLevel() {
+    std::cout << "Next Level!" << std::endl;
+    isRunning = false;
 }
 
 void Game::Destroy() {

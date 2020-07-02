@@ -4,6 +4,8 @@
 #include <C:/libsdl/SDL2/include/SDL2/SDL.h>
 #include "../Game.h"
 #include "../EntityManager.h"
+#include "../TextureManager.h"
+#include "../AssetManager.h"
 #include "../Components/TransformComponent.h"
 
 class ColliderComponent: public Component {

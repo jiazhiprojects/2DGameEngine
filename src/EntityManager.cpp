@@ -49,20 +49,42 @@ std::vector<Entity*> EntityManager::GetEntitiesByLayer(LayerType layer) const {
     return selectedEntities;
 }
 
-std::string EntityManager::CheckEntityCollisions(Entity& myEntity) const {
-    ColliderComponent* myCollider = myEntity.GetComponent<ColliderComponent>();
-    for (auto& entity: entities) {
-        if (entity->name.compare(myEntity.name) != 0 && entity->name.compare("Tile") != 0) {
-            if (entity->HasComponent<ColliderComponent>()) {
-                ColliderComponent* other = entity->GetComponent<ColliderComponent>();
-                if (Collision::CheckRectCollision(myCollider->collider, other->collider)) {
-                    return other->colliderTag;
+CollisionType EntityManager::CheckCollisions() const {
+    for (int i = 0; i < entities.size() - 1; i++) {
+        auto& thisEntity = entities[i];
+        if (thisEntity->HasComponent<ColliderComponent>()) {
+            ColliderComponent* thisCol = thisEntity->GetComponent<ColliderComponent>();
+            for (int j = i + 1; j < entities.size(); j++) {
+                auto& otherEntity = entities[j];
+                if (otherEntity->name.compare("Tile") != 0) {
+                    ColliderComponent* otherCol = otherEntity->GetComponent<ColliderComponent>();
+                    if (Collision::CheckRectCollision(thisCol->collider, otherCol->collider)) {
+                        if (thisCol->colliderTag.compare("PLAYER") == 0 &&
+                            otherCol->colliderTag.compare("ENEMY") == 0) {
+                            return PLAYER_ENEMY_COLLISION;
+                        }
+
+                        if (thisCol->colliderTag.compare("PLAYER") == 0 &&
+                            otherCol->colliderTag.compare("PROJECTILE") == 0) {
+                                return PLAYER_PROJECTILE_COLLISION;
+                        }  
+
+                        if (thisCol->colliderTag.compare("PLAYER") == 0 &&
+                            otherCol->colliderTag.compare("LEVEL_COMPLETE") == 0) {
+                                return PLAYER_LEVELCOMPLETE_COLLISION;
+                        } 
+
+                    // if (thisCol->colliderTag.compare("ENEMY") == 0 &&
+                    //     otherCol->colliderTag.compare("FRIENDLY_PROJECTILE")) {
+                    //         return ENEMY_;
+                    // }                 
+                    }
                 }
+
             }
         }
-
     }
-    return std::string();
+    return NO_COLLISION;
 }
 
 unsigned int EntityManager::GetEntityCount() {
