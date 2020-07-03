@@ -1,3 +1,4 @@
+#include <iostream>
 #include "./EntityManager.h"
 #include "./Components/ColliderComponent.h"
 #include "./Collision.h"
@@ -32,6 +33,7 @@ void EntityManager::Render() {
 Entity& EntityManager::AddEntity(std::string entityName, LayerType layer) {
     Entity *entity = new Entity(*this, entityName, layer);
     entities.emplace_back(entity);
+    std::cout << "got here" << std::endl;
     return *entity;
 }
 
@@ -53,34 +55,26 @@ CollisionType EntityManager::CheckCollisions() const {
     for (int i = 0; i < entities.size() - 1; i++) {
         auto& thisEntity = entities[i];
         if (thisEntity->HasComponent<ColliderComponent>()) {
-            ColliderComponent* thisCol = thisEntity->GetComponent<ColliderComponent>();
+            ColliderComponent* thisCollider = thisEntity->GetComponent<ColliderComponent>();
             for (int j = i + 1; j < entities.size(); j++) {
-                auto& otherEntity = entities[j];
-                if (otherEntity->name.compare("Tile") != 0) {
-                    ColliderComponent* otherCol = otherEntity->GetComponent<ColliderComponent>();
-                    if (Collision::CheckRectCollision(thisCol->collider, otherCol->collider)) {
-                        if (thisCol->colliderTag.compare("PLAYER") == 0 &&
-                            otherCol->colliderTag.compare("ENEMY") == 0) {
+                auto& thatEntity = entities[j];
+                if (thisEntity->name.compare(thatEntity->name) != 0 && thatEntity->HasComponent<ColliderComponent>()) {
+                    ColliderComponent* thatCollider = thatEntity->GetComponent<ColliderComponent>();
+                    if (Collision::CheckRectCollision(thisCollider->collider, thatCollider->collider)) {
+                        if (thisCollider->colliderTag.compare("PLAYER") == 0 && thatCollider->colliderTag.compare("ENEMY") == 0) {
                             return PLAYER_ENEMY_COLLISION;
                         }
-
-                        if (thisCol->colliderTag.compare("PLAYER") == 0 &&
-                            otherCol->colliderTag.compare("PROJECTILE") == 0) {
-                                return PLAYER_PROJECTILE_COLLISION;
-                        }  
-
-                        if (thisCol->colliderTag.compare("PLAYER") == 0 &&
-                            otherCol->colliderTag.compare("LEVEL_COMPLETE") == 0) {
-                                return PLAYER_LEVELCOMPLETE_COLLISION;
-                        } 
-
-                    // if (thisCol->colliderTag.compare("ENEMY") == 0 &&
-                    //     otherCol->colliderTag.compare("FRIENDLY_PROJECTILE")) {
-                    //         return ENEMY_;
-                    // }                 
+                        if (thisCollider->colliderTag.compare("PLAYER") == 0 && thatCollider->colliderTag.compare("PROJECTILE") == 0) {
+                            return PLAYER_PROJECTILE_COLLISION;
+                        }
+                        if (thisCollider->colliderTag.compare("ENEMY") == 0 && thatCollider->colliderTag.compare("FRIENDLY_PROJECTILE") == 0) {
+                            return ENEMY_PROJECTILE_COLLISION;
+                        }
+                        if (thisCollider->colliderTag.compare("PLAYER") == 0 && thatCollider->colliderTag.compare("LEVEL_COMPLETE") == 0) {
+                            return PLAYER_LEVEL_COMPLETE_COLLISION;
+                        }
                     }
                 }
-
             }
         }
     }
