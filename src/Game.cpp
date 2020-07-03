@@ -86,17 +86,17 @@ void Game::LoadLevel(int levelNumber) {
     player.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");
     player.AddComponent<ColliderComponent>("PLAYER", 240, 106, 32, 32);
 
-    // Entity& heliport(manager.AddEntity("Heliport", OBSTACLE_LAYER));
-    // heliport.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
-    // heliport.AddComponent<SpriteComponent>("heliport-image");
-    // heliport.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
+    Entity& heliport(manager.AddEntity("Heliport", OBSTACLE_LAYER));
+    heliport.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
+    heliport.AddComponent<SpriteComponent>("heliport-image");
+    heliport.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
 
-    // Entity& heliport1(manager.AddEntity("Heliport", OBSTACLE_LAYER));
-    // heliport1.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
-    // heliport1.AddComponent<SpriteComponent>("heliport-image");
-    // heliport1.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
+    Entity& heliport1(manager.AddEntity("Heliport", OBSTACLE_LAYER));
+    heliport1.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
+    heliport1.AddComponent<SpriteComponent>("heliport-image");
+    heliport1.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
+    
     Entity& labelLevelName = manager.AddEntity("LabelLevelName", UI_LAYER);
-    std::cout << "Added Entity" << std::endl;
     labelLevelName.AddComponent<TextLabelComponent>(10, 10, "First Level", "charriot-font", WHITE_COLOR);
 }
 

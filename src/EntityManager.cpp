@@ -33,7 +33,6 @@ void EntityManager::Render() {
 Entity& EntityManager::AddEntity(std::string entityName, LayerType layer) {
     Entity *entity = new Entity(*this, entityName, layer);
     entities.emplace_back(entity);
-    std::cout << "got here" << std::endl;
     return *entity;
 }
 
