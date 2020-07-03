@@ -17,3 +17,6 @@ A *Basic 2D Game Engine* made from scratch using C++, for learning purposes. **S
 **Game Rules**
 * Player lose if hit by the projectiles
 * Player advances to next level if collided with the "Heliport" (displayed in game with the "H" lebel)
+
+**Next Steps**
+* GUI editor for more flexible design changes
