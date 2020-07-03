@@ -12,6 +12,7 @@ A *Basic 2D Game Engine* made from scratch using C++, for learning purposes. **S
 
 **Instructions**
 * Run the game.exe
+* Your OS might throw virus threat messeges, in this case please allow it to execute
 
 **Game Rules**
 * Player lose if hit by the projectiles
