@@ -1,5 +1,5 @@
 # 2DGameEngine
-A *Basic 2D Game Engine* made from scratch using C++, for learning purposes. Source code provided
+A *Basic 2D Game Engine* made from scratch using C++, for learning purposes. **Source code provided in the src directory**
 
 **Features**
 * Entity-Component Approach
