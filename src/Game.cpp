@@ -7,8 +7,9 @@
 #include "./Components/SpriteComponent.h"
 #include "./Components/ColliderComponent.h"
 #include "../lib/glm/glm.hpp"
-#include"./Components/KeyboardControlComponent.h"
-#include"./Components/TextLabelComponent.h"
+#include "./Components/KeyboardControlComponent.h"
+#include "./Components/TextLabelComponent.h"
+#include "./Components/ProjectileEmitterComponent.h"
 
 
 EntityManager manager;
@@ -71,12 +72,14 @@ void Game::LoadLevel(int levelNumber) {
     assetManager->AddTexture("chopper-image", textureFilePath2.c_str());
     assetManager->AddTexture("jungle", std::string("./assets/tilemaps/jungle.png").c_str());
     assetManager->AddFont("charriot-font", std::string("./assets/fonts/arial.ttf").c_str(), 14);
+    assetManager->AddTexture("heliport-image", std::string("./assets/images/heliport.png").c_str());
+    assetManager->AddTexture("projectile-image", std::string("./assets/images/bullet-enemy.png").c_str()); 
 
     map = new Map("jungle", 1, 32);
     map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
 
-    Entity& tankEntity = manager.AddEntity("tank", ENEMY_LAYER);
-    tankEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
+    Entity& tankEntity(manager.AddEntity("tank", ENEMY_LAYER));
+    tankEntity.AddComponent<TransformComponent>(150, 495, 0, 0, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
     tankEntity.AddComponent<ColliderComponent>("ENEMY", 150, 495, 32, 32);
 
@@ -90,14 +93,15 @@ void Game::LoadLevel(int levelNumber) {
     heliport.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
     heliport.AddComponent<SpriteComponent>("heliport-image");
     heliport.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
-
-    Entity& heliport1(manager.AddEntity("Heliport", OBSTACLE_LAYER));
-    heliport1.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
-    heliport1.AddComponent<SpriteComponent>("heliport-image");
-    heliport1.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
     
     Entity& labelLevelName = manager.AddEntity("LabelLevelName", UI_LAYER);
     labelLevelName.AddComponent<TextLabelComponent>(10, 10, "First Level", "charriot-font", WHITE_COLOR);
+
+    Entity& projectile(manager.AddEntity("projectile", PROJECTILE_LAYER));
+    projectile.AddComponent<TransformComponent>(150+16, 495+16, 0, 0, 4, 4, 1);
+    projectile.AddComponent<SpriteComponent>("projectile-image");
+    projectile.AddComponent<ColliderComponent>("PROJECTILE", 150+16, 495+16, 4, 4);
+    projectile.AddComponent<ProjectileEmitterComponent>(50, 270, 200, true);
 }
 
 void Game::ProcessInput() {
@@ -169,18 +173,14 @@ void Game::HandleCameraMovement() {
 
 void Game::CheckCollisions() {
     CollisionType colType = manager.CheckCollisions();
-    // switch (colType) {
-    //     case PLAYER_ENEMY_COLLISION:
-    //         ProcessGameOver();
-    //         break;
-    //     case PLAYER_LEVELCOMPLETE_COLLISION:
-    //         ProcessNextLevel();
-    //         break;
-    //     default:
-    //         break;
-    // }
     if (colType == PLAYER_ENEMY_COLLISION) {
         ProcessGameOver();
+    }
+    if (colType == PLAYER_PROJECTILE_COLLISION) {
+        ProcessGameOver();
+    }
+    if (colType == PLAYER_LEVEL_COMPLETE_COLLISION) {
+        ProcessNextLevel(1);
     }
 }
 
@@ -189,8 +189,8 @@ void Game::ProcessGameOver() {
     isRunning = false;
 }
 
-void Game::ProcessNextLevel() {
-    std::cout << "Next Level!" << std::endl;
+void Game::ProcessNextLevel(int levelNumber) {
+    std::cout << "Next Level" << std::endl;
     isRunning = false;
 }
 

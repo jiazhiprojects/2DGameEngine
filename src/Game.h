@@ -4,7 +4,6 @@
 #include <C:/libsdl/SDL2/include/SDL2/SDL.h>
 #include <C:/libsdl/SDL2/include/SDL2/SDL_image.h>
 #include <C:/libsdl/SDL2/include/SDL2/SDL_ttf.h>
-//#include "./AssetManager.h"
 #include "./EntityManager.h"
 #include "./Component.h"
 #include "./Entity.h"
@@ -34,7 +33,7 @@ class Game {
         void HandleCameraMovement();
         void CheckCollisions();
         void ProcessGameOver();
-        void ProcessNextLevel();
+        void ProcessNextLevel(int levelNumber);
 
 };
 
