@@ -19,4 +19,4 @@ A *Basic 2D Game Engine* made from scratch using C++, for learning purposes. **S
 * Player advances to next level if collided with the "Heliport" (displayed in game with the "H" lebel)
 
 **Next Steps**
-* more flexible interface for designing / experimenting
+* More flexible interface for designing / experimenting
